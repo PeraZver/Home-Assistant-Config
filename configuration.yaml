@@ -26,17 +26,17 @@ mqtt:
 # Humidity sensors
 sensor:
   - platform: mqtt
-    name: "ESP32 Test"
+    name: "ESP32 Plant Monitor"
     state_topic: "plant/sensor"
     value_template: '{{value_json.Humidity}}'
     unit_of_measurement: "%" 
   - platform: template
     sensors:
       humidity:
-        entity_id: sensor.esp32_test
+        entity_id: sensor.esp32_plant_monitor
         friendly_name: Humidity
         value_template: >-
-          {% if states('sensor.esp32_test')|float < 50 %}
+          {% if states('sensor.esp32_plant_monitor')|float < 50 %}
             Dry
           {% else %}
             Wet
@@ -48,10 +48,3 @@ binary_sensor:
     name: Living Area
     state_topic: 'binary_sensor/living_area'
     
-# Camera
-camera:
-  - platform: generic
-    still_image_url: http://192.168.0.117/
-    content_type: 'image/svg+xml'
-    name: ttgo_cam
-    verify_ssl: false
