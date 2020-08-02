@@ -1,1 +1,74 @@
-[]
+- id: howisoutofbed7583475893475897345
+  alias: 'who is out of bed '
+  trigger:
+  - entity_id: binary_sensor.ttgocam_pir
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition:
+  - after: '23:00:00'
+    before: 05:00:00
+    condition: time
+  action:
+  - data:
+      data:
+        attachment:
+          content-type: jpeg
+        entity_id: camera.ttgocam_camera
+        push:
+          category: camera
+      message: Who is out of Bed?
+      title: Busted
+    service: notify.ios_justin_iphone7
+  - data:
+      data:
+        attachment:
+          content-type: jpeg
+        entity_id: camera.ttgocam_camera
+        push:
+          category: camera
+      message: Who is out of Bed?
+      title: Mommy Alert
+    service: notify.ios_janis7
+- alias: girls room doorbell button press
+  id: girlsroomdoorbellbuttonpress94847589y4rthjs
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.ttgocam_button
+    from: 'off'
+    to: 'on'
+  action:
+  - service: media_player.alexa_tts
+    data:
+      entity_id: media_player.zoe_s_echo_dot
+      message: Knock Knock. Someone is at the Lovely Beautiful's door
+  - service: notify.ios_girls_ipad
+    data:
+      title: Knock Knock
+      message: Who is at the door?
+      data:
+        attachment:
+          content-type: jpeg
+        push:
+          category: camera
+        entity_id: camera.ttgocam_camera
+- id: '1596402567381'
+  alias: Notification test
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.esp32cam_pir
+    from: Clear
+    platform: state
+    to: Detected
+  condition: []
+  action:
+  - data:
+      data:
+        attachment:
+          content-type: jpeg
+        entity_id: camera.ttgocam_camera
+        push:
+          category: camera
+      message: ko seta po kuci?
+      title: Alo!
+    service: notify.mobile_app_sne_lx1
