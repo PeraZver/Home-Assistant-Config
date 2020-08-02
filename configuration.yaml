@@ -1,0 +1,57 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+# http:
+#   base_url: example.duckdns.org:8123
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+homeassistant:
+  customize: !include customize.yaml
+
+# MQTT Broker
+mqtt:
+  broker: 192.168.0.88
+  discovery: true
+  discovery_prefix: homeassistant
+
+# Humidity sensors
+sensor:
+  - platform: mqtt
+    name: "ESP32 Test"
+    state_topic: "plant/sensor"
+    value_template: '{{value_json.Humidity}}'
+    unit_of_measurement: "%" 
+  - platform: template
+    sensors:
+      humidity:
+        entity_id: sensor.esp32_test
+        friendly_name: Humidity
+        value_template: >-
+          {% if states('sensor.esp32_test')|float < 50 %}
+            Dry
+          {% else %}
+            Wet
+          {% endif %}
+
+# Lovelace-floorplan example 
+binary_sensor:
+  - platform: mqtt
+    name: Living Area
+    state_topic: 'binary_sensor/living_area'
+    
+# Camera
+camera:
+  - platform: generic
+    still_image_url: http://192.168.0.117/
+    content_type: 'image/svg+xml'
+    name: ttgo_cam
+    verify_ssl: false
