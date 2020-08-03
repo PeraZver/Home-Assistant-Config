@@ -57,10 +57,13 @@
   description: ''
   trigger:
   - entity_id: binary_sensor.esp32cam_pir
-    from: Clear
+    from: 'off'
     platform: state
-    to: Detected
-  condition: []
+    to: 'on'
+  condition:
+  - after: 01:00
+    before: 06:00
+    condition: time
   action:
   - data:
       data:
@@ -72,3 +75,4 @@
       message: ko seta po kuci?
       title: Alo!
     service: notify.mobile_app_sne_lx1
+  mode: single
