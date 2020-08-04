@@ -26,17 +26,30 @@ mqtt:
 # Humidity sensors
 sensor:
   - platform: mqtt
-    name: "ESP32 Plant Monitor"
+    name: "ESP32_Higrow_moisture"
+    state_topic: "plant/sensor"
+    value_template: '{{value_json.Moisture}}'
+    unit_of_measurement: "%" 
+    
+  - platform: mqtt
+    name: "ESP32_Higrow_temperature"
+    state_topic: "plant/sensor"
+    value_template: '{{value_json.Temperature}}'
+    unit_of_measurement: "°C" 
+
+  - platform: mqtt
+    name: "ESP32_Higrow_humidity"
     state_topic: "plant/sensor"
     value_template: '{{value_json.Humidity}}'
     unit_of_measurement: "%" 
+
   - platform: template
     sensors:
       humidity:
-        entity_id: sensor.esp32_plant_monitor
-        friendly_name: Humidity
+        entity_id: sensor.esp32_higrow_moisture
+        friendly_name: Plant Humidity
         value_template: >-
-          {% if states('sensor.esp32_plant_monitor')|float < 50 %}
+          {% if states('sensor.esp32_higrow_moisture')|float < 70 %}
             Dry
           {% else %}
             Wet
