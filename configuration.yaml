@@ -30,6 +30,7 @@ sensor:
     state_topic: "plant/sensor"
     value_template: '{{value_json.Moisture}}'
     unit_of_measurement: "%" 
+    icon: mdi:watering-can
     
   - platform: mqtt
     name: "ESP32_Higrow_temperature"
@@ -42,6 +43,7 @@ sensor:
     state_topic: "plant/sensor"
     value_template: '{{value_json.Humidity}}'
     unit_of_measurement: "%" 
+    icon: mdi:water-percent
 
   - platform: template
     sensors:
